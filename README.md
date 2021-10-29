@@ -31,6 +31,18 @@ In this project, you can build your own C++ application or extend this Snake gam
 3. Compile: `cmake .. && make`
 4. Run it: `./SnakeGame`.
 
+
+## TODOs
+
+* Fundamental
+  * ? Detect input in a separate thread
+  * Turn the game class more like a game engine
+  * GUI components & system
+  
+* Mechanism
+  * Add walls
+  * Add more items
+
 ## CC Attribution-ShareAlike 4.0 International
 
 Shield: [![CC BY-SA 4.0][cc-by-sa-shield]][cc-by-sa]
