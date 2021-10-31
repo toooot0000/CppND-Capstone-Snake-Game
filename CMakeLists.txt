@@ -16,6 +16,9 @@ find_package(SDL2 REQUIRED)
 include_directories(${SDL2_INCLUDE_DIRS} src)
 
 # add executable
-add_executable(SnakeGame src/main.cpp src/game.cpp src/controller.cpp src/renderer.cpp src/snake.cpp)
+add_executable(SnakeGame src/main.cpp)
 string(STRIP ${SDL2_LIBRARIES} SDL2_LIBRARIES)
-target_link_libraries(SnakeGame ${SDL2_LIBRARIES})
+
+add_subdirectory(src/engine)
+
+target_link_libraries(SnakeGame ${SDL2_LIBRARIES} Engine)
