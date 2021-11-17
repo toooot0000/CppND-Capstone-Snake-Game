@@ -1,16 +1,17 @@
-#ifndef CONTROLLER_H
-#define CONTROLLER_H
+#pragma once
 
-#include "snake.h"
+// #include "snake.h"
+#include "inputEvent.h"
 
 class Controller
 {
 public:
-    void HandleInput(bool &running, Snake &snake) const;
+    // void HandleInput(bool &running, Snake &snake) const;
+    Controller(){};
+    ~Controller(){};
+    InputEvent pollEvent();
 
 private:
-    void ChangeDirection(Snake &snake, Snake::Direction input,
-                         Snake::Direction opposite) const;
+    // void ChangeDirection(Snake &snake, Snake::Direction input,
+    //                      Snake::Direction opposite) const;
 };
-
-#endif

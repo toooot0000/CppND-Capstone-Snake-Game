@@ -1,19 +1,17 @@
-#ifndef RENDERER_H
-#define RENDERER_H
+#pragma once
 
-#include <vector>
 #include "SDL.h"
-#include "snake.h"
+#include "core/gameObject.h"
+#include <vector>
 
 class Renderer
 {
 public:
-    Renderer(const std::size_t screen_width, const std::size_t screen_height,
-             const std::size_t grid_width, const std::size_t grid_height);
+    Renderer(const std::size_t screen_width, const std::size_t screen_height);
     ~Renderer();
 
-    void Render(Snake const snake, SDL_Point const &food);
-    void UpdateWindowTitle(int score, int fps);
+    void updateWindowTitle(int score, int fps);
+    void render(const std::vector<GameObject> &objList);
 
 private:
     SDL_Window *sdl_window;
@@ -21,8 +19,4 @@ private:
 
     const std::size_t screen_width;
     const std::size_t screen_height;
-    const std::size_t grid_width;
-    const std::size_t grid_height;
 };
-
-#endif

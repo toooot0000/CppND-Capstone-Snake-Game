@@ -14,8 +14,8 @@ target_include_directories(
     Engine 
     PUBLIC ${CMAKE_SOURCE_DIR}/include
     PUBLIC ${CMAKE_SOURCE_DIR}/src/engine
-    PRIVATE ${SDL2_INCLUDE_DIRS}
-    PRIVATE ${SDL2_IMAGE_INCLUDE_DIRS}
+    PUBLIC ${SDL2_INCLUDE_DIRS}
+    PUBLIC ${SDL2_IMAGE_INCLUDE_DIRS}
 )
 
 string(STRIP ${SDL2_LIBRARIES} SDL2_LIBRARIES)      # TODO why this is needed?

@@ -1,8 +1,5 @@
 /**
  * The main game engine class. 
- * Main duty:
- *  1. Basic game loop
- *  2. Organize game objects
  */
 
 #pragma once
@@ -13,9 +10,19 @@
 class Game
 {
 private:
-public:
-    Game() {}
-    ~Game() {}
+    std::unordered_map<int, GameObject> gameObjects;
+    void registerGameObject(GameObject &obj);
+
     void mainLoop();
     void init();
+    void render();
+
+public:
+    /**
+     * @brief Construct a new Game object running a given game.
+     * 
+     * @param game 
+     */
+    Game(GameObject game) {}
+    ~Game() {}
 };
