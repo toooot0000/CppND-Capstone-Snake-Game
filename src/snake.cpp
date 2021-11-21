@@ -75,6 +75,9 @@ void Snake::UpdateBody(SDL_Point &current_head_cell, SDL_Point &prev_head_cell)
 
 void Snake::GrowBody() { growing = true; }
 
+// TODO
+void Snake::GrowBody(int size) { GrowBody(); }
+
 // Inefficient method to check if cell is occupied by snake.
 bool Snake::SnakeCell(int x, int y)
 {

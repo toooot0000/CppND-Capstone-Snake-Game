@@ -24,6 +24,7 @@ public:
     void Update();
 
     void GrowBody();
+    void GrowBody(int length); // TODO
     bool SnakeCell(int x, int y);
 
     Direction direction = Direction::kUp;
