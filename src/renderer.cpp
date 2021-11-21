@@ -43,23 +43,11 @@ Renderer::~Renderer()
     SDL_Quit();
 }
 
-void Renderer::Render(Snake const &snake, SDL_Point const &food)
+void Renderer::RenderSnake(const Snake &snake)
 {
     SDL_Rect block;
     block.w = screen_width / grid_width;
     block.h = screen_height / grid_height;
-
-    // Clear screen
-    SDL_SetRenderDrawColor(sdl_renderer, 0x1E, 0x1E, 0x1E, 0xFF);
-    SDL_RenderClear(sdl_renderer);
-
-    // Render food
-    SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xCC, 0x00, 0xFF);
-    block.x = food.x * block.w;
-    block.y = food.y * block.h;
-    SDL_RenderFillRect(sdl_renderer, &block);
-
-    // Render snake's body
     SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
     for (SDL_Point const &point : snake.body)
     {
@@ -68,7 +56,6 @@ void Renderer::Render(Snake const &snake, SDL_Point const &food)
         SDL_RenderFillRect(sdl_renderer, &block);
     }
 
-    // Render snake's head
     block.x = static_cast<int>(snake.head_x) * block.w;
     block.y = static_cast<int>(snake.head_y) * block.h;
     if (snake.alive)
@@ -80,8 +67,42 @@ void Renderer::Render(Snake const &snake, SDL_Point const &food)
         SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0x00, 0x00, 0xFF);
     }
     SDL_RenderFillRect(sdl_renderer, &block);
+}
 
-    // Update Screen
+void Renderer::RenderFoods(const std::vector<Food> &foodList)
+{
+    SDL_Rect block;
+    block.w = screen_width / grid_width;
+    block.h = screen_height / grid_height;
+    for (const auto &food : foodList)
+    {
+        switch (food.type)
+        {
+        case Food::Normal:
+            SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xCC, 0x00, 0xFF);
+            break;
+        case Food::Enhanced:
+            SDL_SetRenderDrawColor(sdl_renderer, 0xCC, 0xFF, 0x00, 0xFF);
+            break;
+        case Food::Super:
+            SDL_SetRenderDrawColor(sdl_renderer, 0xCC, 0xFF, 0xCC, 0xFF);
+            break;
+        }
+        block.x = food.position.x * block.w;
+        block.y = food.position.y * block.h;
+        SDL_RenderFillRect(sdl_renderer, &block);
+    }
+}
+
+void Renderer::Render(Snake const &snake, const std::vector<Food> &food)
+{
+
+    SDL_SetRenderDrawColor(sdl_renderer, 0x1E, 0x1E, 0x1E, 0xFF);
+    SDL_RenderClear(sdl_renderer);
+
+    RenderSnake(snake);
+    RenderFoods(food);
+
     SDL_RenderPresent(sdl_renderer);
 }
 

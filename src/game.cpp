@@ -31,7 +31,8 @@ void Game::Run(Controller const &controller, Renderer &renderer,
         // Input, Update, Render - the main game loop.
         controller.HandleInput(running, snake);
         Update();
-        renderer.Render(snake, food);
+        // renderer.Render(snake, food);
+        renderer.Render(snake, foodList);
 
         frame_end = SDL_GetTicks();
 
@@ -58,39 +59,41 @@ void Game::Run(Controller const &controller, Renderer &renderer,
     }
 }
 
-void Game::PlaceFood()
-{
-    int x, y;
-    while (true)
-    {
-        x = random_w(engine);
-        y = random_h(engine);
-        // Check that the location is not occupied by a snake item before placing
-        // food.
-        if (!snake.SnakeCell(x, y))
-        {
-            food.x = x;
-            food.y = y;
-            return;
-        }
-    }
-}
+// void Game::PlaceFood()
+// {
+//     int x, y;
+//     while (true)
+//     {
+//         x = random_w(engine);
+//         y = random_h(engine);
+//         // Check that the location is not occupied by a snake item before placing
+//         // food.
+//         if (!snake.SnakeCell(x, y))
+//         {
+//             food.x = x;
+//             food.y = y;
+//             return;
+//         }
+//     }
+// }
 
 void Game::UpdateFood()
 {
     // remove all eaten food
-    std::remove_if(std::begin(foodList), std::end(foodList), [](Food f)
-                   { return f.isEaten; });
+    std::vector<Food> newFoodList;
+    for (auto &food : foodList)
+    {
+        if (!food.isEaten)
+        {
+            newFoodList.emplace_back(food);
+        }
+    }
+    std::swap(foodList, newFoodList);
 
     bool foodSignal = false;
 
     // spawn new food
-    if (foodList.size() == 0)
-    {
-        foodSignal = true;
-        foodTimer.Restart();
-    }
-    else if (foodList.size() < FOOD_LIMIT && foodTimer.IsTimeOut())
+    if (foodList.size() == 0 || (foodList.size() < FOOD_LIMIT && foodTimer.IsTimeOut()))
     {
         foodSignal = true;
         foodTimer.Restart();
@@ -98,7 +101,12 @@ void Game::UpdateFood()
 
     if (foodSignal)
     {
-        foodList.emplace_back(foodSpawner.SpawnFood(snake.body));
+        std::vector<SDL_Point> avoidVec(begin(snake.body), end(snake.body));
+        for (const auto &food : foodList)
+        {
+            avoidVec.emplace_back(food.position);
+        }
+        foodList.emplace_back(foodSpawner.SpawnFood(avoidVec));
     }
 }
 
@@ -113,16 +121,14 @@ void Game::Update()
     int new_y = static_cast<int>(snake.head_y);
 
     // Check if there's food over here
-    bool snakeAteFood = false;
     for (auto &food : foodList)
     {
-        if (food.position.x == new_x && food.position.y == new_y)
+        if (food.position.x == new_x && food.position.y == new_y && !food.isEaten)
         {
             score += food.type;
             snake.GrowBody(food.type);
             snake.speed += 0.02 * food.type;
             food.isEaten = true;
-            snakeAteFood = true;
             break;
         }
     }

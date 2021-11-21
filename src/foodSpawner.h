@@ -8,7 +8,8 @@ struct Food
     enum Types
     {
         Normal = 1,
-        Enhanced = 2
+        Enhanced = 2,
+        Super = 4
     };
     Types type = Types::Normal;
     SDL_Point position;
@@ -23,6 +24,7 @@ public:
 
 private:
     const double ENHANCED_PROBABILITY = 0.3;
+    const double SUPER_PROBABILITY = 0.1;
     std::random_device dev;
     std::mt19937 engine;
     std::uniform_int_distribution<int> random_w;

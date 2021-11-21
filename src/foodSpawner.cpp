@@ -43,7 +43,12 @@ Food FoodSpawner::SpawnFood(std::vector<SDL_Point> &noPlace)
     }
 
     std::uniform_real_distribution<> foodTypeDis;
-    if (foodTypeDis(engine) < ENHANCED_PROBABILITY)
+    double randNum = foodTypeDis(engine);
+    if (randNum < SUPER_PROBABILITY)
+    {
+        ret.type = ret.Super;
+    }
+    else if (randNum < ENHANCED_PROBABILITY)
     {
         ret.type = ret.Enhanced;
     }

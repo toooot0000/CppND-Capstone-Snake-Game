@@ -21,21 +21,15 @@ public:
 
 private:
     Snake snake;
-    SDL_Point food;
 
     FoodSpawner foodSpawner;
-    const unsigned int FOOD_LIMIT{3};
-    Timer foodTimer{3};
+    const unsigned int FOOD_LIMIT{5};
+    Timer foodTimer{5000000};
     std::vector<Food> foodList;
-
-    std::random_device dev;
-    std::mt19937 engine;
-    std::uniform_int_distribution<int> random_w;
-    std::uniform_int_distribution<int> random_h;
 
     int score{0};
 
-    void PlaceFood();
+    // void PlaceFood();
     void UpdateFood();
     void Update();
 };

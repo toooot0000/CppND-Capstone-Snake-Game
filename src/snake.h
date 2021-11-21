@@ -41,6 +41,7 @@ private:
     void UpdateBody(SDL_Point &current_cell, SDL_Point &prev_cell);
 
     bool growing{false};
+    int growingNum{0};
     int grid_width;
     int grid_height;
 };

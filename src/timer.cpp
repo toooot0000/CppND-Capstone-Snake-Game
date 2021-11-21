@@ -79,7 +79,7 @@ bool Timer::Stop()
     }
     if (thd.joinable())
     {
-        std::cout << "Join the running thread!\n";
+        // std::cout << "Join the running thread!\n";
         thd.join();
     }
     return true;
