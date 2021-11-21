@@ -2,13 +2,20 @@
 
 This is a repo for the Capstone project in the [Udacity C++ Nanodegree Program](https://www.udacity.com/course/c-plus-plus-nanodegree--nd213). The code for this repo was inspired by [this](https://codereview.stackexchange.com/questions/212296/snake-game-in-c-with-sdl) excellent StackOverflow post and set of responses.
 
+## Changes to the original project
 
-## Changes
+1. A different way of spawning food
+   1. Now there could be at most 5 food at the same time.
+   2. If all food is consumed by snake, then one food would be immediately spawned.
+   3. If the number of food is less than 5, then spawn a food when it's 5 seconds from the last time.
 
-1. new
-Beside the basic game mechanism, I added a food spawner to generate food in a separated thread and add a new type of food which worth more scores but only show in a short time.
+2. Added a Timer class
+   1. The Timer uses multi thread to count time lapses.
+   2. It supports several manipulative methods like Start, Stop.
 
-Also I 
+3. Add 2 new types of food
+   1. Snake could gain more scores from eating a Enhanced or Super food.
+   2. Also, these two types of food are rendered in different colors.
 
 ![Illustration gif of SnakeGame](snake_game.gif)
 

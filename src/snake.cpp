@@ -57,7 +57,6 @@ void Snake::UpdateBody(SDL_Point &current_head_cell, SDL_Point &prev_head_cell)
     }
     else
     {
-        std::cout << "Snake Grow!" << std::endl;
         growingNum--;
         size++;
     }
