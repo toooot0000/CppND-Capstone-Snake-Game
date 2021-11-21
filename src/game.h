@@ -2,10 +2,13 @@
 #define GAME_H
 
 #include <random>
+#include <vector>
 #include "SDL.h"
 #include "controller.h"
 #include "renderer.h"
 #include "snake.h"
+#include "foodSpawner.h"
+#include "timer.h"
 
 class Game
 {
@@ -20,6 +23,11 @@ private:
     Snake snake;
     SDL_Point food;
 
+    FoodSpawner foodSpawner;
+    const unsigned int FOOD_LIMIT{3};
+    Timer foodTimer{3};
+    std::vector<Food> foodList;
+
     std::random_device dev;
     std::mt19937 engine;
     std::uniform_int_distribution<int> random_w;
@@ -28,6 +36,7 @@ private:
     int score{0};
 
     void PlaceFood();
+    void UpdateFood();
     void Update();
 };
 

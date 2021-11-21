@@ -1,14 +1,17 @@
 #include "game.h"
 #include <iostream>
+#include <algorithm>
 #include "SDL.h"
 
 Game::Game(std::size_t grid_width, std::size_t grid_height)
     : snake(grid_width, grid_height),
-      engine(dev()),
-      random_w(0, static_cast<int>(grid_width - 1)),
-      random_h(0, static_cast<int>(grid_height - 1))
+      //   engine(dev()),
+      //   random_w(0, static_cast<int>(grid_width - 1)),
+      //   random_h(0, static_cast<int>(grid_height - 1))
+      foodSpawner(grid_width, grid_height)
 {
-    PlaceFood();
+    // PlaceFood();
+    UpdateFood();
 }
 
 void Game::Run(Controller const &controller, Renderer &renderer,
@@ -73,6 +76,32 @@ void Game::PlaceFood()
     }
 }
 
+void Game::UpdateFood()
+{
+    // remove all eaten food
+    std::remove_if(std::begin(foodList), std::end(foodList), [](Food f)
+                   { return f.isEaten; });
+
+    bool foodSignal = false;
+
+    // spawn new food
+    if (foodList.size() == 0)
+    {
+        foodSignal = true;
+        foodTimer.Restart();
+    }
+    else if (foodList.size() < FOOD_LIMIT && foodTimer.IsTimeOut())
+    {
+        foodSignal = true;
+        foodTimer.Restart();
+    }
+
+    if (foodSignal)
+    {
+        foodList.emplace_back(foodSpawner.SpawnFood(snake.body));
+    }
+}
+
 void Game::Update()
 {
     if (!snake.alive)
@@ -84,14 +113,20 @@ void Game::Update()
     int new_y = static_cast<int>(snake.head_y);
 
     // Check if there's food over here
-    if (food.x == new_x && food.y == new_y)
+    bool snakeAteFood = false;
+    for (auto &food : foodList)
     {
-        score++;
-        PlaceFood();
-        // Grow snake and increase speed.
-        snake.GrowBody();
-        snake.speed += 0.02;
+        if (food.position.x == new_x && food.position.y == new_y)
+        {
+            score += food.type;
+            snake.GrowBody(food.type);
+            snake.speed += 0.02 * food.type;
+            food.isEaten = true;
+            snakeAteFood = true;
+            break;
+        }
     }
+    UpdateFood();
 }
 
 int Game::GetScore() const { return score; }
