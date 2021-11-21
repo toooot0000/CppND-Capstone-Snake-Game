@@ -11,6 +11,14 @@ struct Food
         Enhanced = 2,
         Super = 4
     };
+
+    Food(){};
+    Food(const Food &other);
+    Food(Food &&other);
+
+    Food &operator=(const Food &other);
+    Food &operator=(Food &&other);
+
     Types type = Types::Normal;
     SDL_Point position;
     bool isEaten{false};

@@ -5,12 +5,6 @@
 #include <iostream>
 
 Timer::Timer()
-    : interval(1)
-{
-}
-
-Timer::Timer(unsigned int microSec)
-    : interval(microSec)
 {
 }
 
@@ -37,7 +31,7 @@ void Timer::Timing(int microSec)
     isRunning = false;
 }
 
-bool Timer::Start(int sec)
+bool Timer::Start(int microSec)
 {
     {
         std::unique_lock<std::mutex> uLock(runningMut);
@@ -52,15 +46,11 @@ bool Timer::Start(int sec)
         interupt = false;
         isRunning = true;
     }
-    if (sec != -1)
-    {
-        interval = sec;
-    }
     if (thd.joinable())
     {
         thd.join();
     }
-    thd = std::thread(&Timer::Timing, this, interval);
+    thd = std::thread(&Timer::Timing, this, microSec);
     return true;
 }
 
@@ -79,7 +69,6 @@ bool Timer::Stop()
     }
     if (thd.joinable())
     {
-        // std::cout << "Join the running thread!\n";
         thd.join();
     }
     return true;

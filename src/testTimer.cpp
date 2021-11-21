@@ -4,9 +4,9 @@
 using namespace std;
 int main()
 {
-    Timer timer(2000000);
+    Timer timer;
     auto start = chrono::system_clock().now();
-    timer.Start();
+    timer.Start(2000000);
     this_thread::sleep_for(chrono::microseconds(2000));
     timer.Stop();
     // while (!timer.IsTimeOut())

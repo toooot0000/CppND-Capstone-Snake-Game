@@ -2,6 +2,36 @@
 #include <unordered_set>
 #include <functional>
 
+Food::Food(const Food &other)
+    : type(other.type),
+      position(other.position),
+      isEaten(other.isEaten)
+{
+}
+
+Food &Food::operator=(const Food &other)
+{
+    this->type = other.type;
+    this->position = other.position;
+    this->isEaten = other.isEaten;
+    return *this;
+}
+
+Food::Food(Food &&other)
+    : type(other.type),
+      position(other.position),
+      isEaten(other.isEaten)
+{
+}
+
+Food &Food::operator=(Food &&other)
+{
+    this->type = other.type;
+    this->position = other.position;
+    this->isEaten = other.isEaten;
+    return *this;
+}
+
 FoodSpawner::FoodSpawner(std::size_t grid_width, std::size_t grid_height)
     : engine(dev()),
       random_w(0, static_cast<int>(grid_width - 1)),

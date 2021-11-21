@@ -24,7 +24,8 @@ private:
 
     FoodSpawner foodSpawner;
     const unsigned int FOOD_LIMIT{5};
-    Timer foodTimer{5000000};
+    const unsigned int FOOD_SPAWN_MICROSEC = 5000000;
+    Timer foodTimer;
     std::vector<Food> foodList;
 
     int score{0};
